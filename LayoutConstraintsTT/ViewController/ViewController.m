@@ -20,16 +20,29 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     [self.view addSubview:self.subView];
-    NSLayoutConstraint *constrainLeft = [NSLayoutConstraint constraintWithItem:_subView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:40.0];
-    NSLayoutConstraint *constrainRight = [NSLayoutConstraint constraintWithItem:_subView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-40.0];
-    NSLayoutConstraint *constrainCenterY = [NSLayoutConstraint constraintWithItem:_subView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0];
-    NSLayoutConstraint *constrainHeight = [NSLayoutConstraint constraintWithItem:_subView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:300];
-    [self.view addConstraint:constrainLeft];
-    [self.view addConstraint:constrainRight];
-    [self.view addConstraint:constrainCenterY];
-    [self.view addConstraint:constrainHeight];
+    NSLayoutConstraint *constraintTop = [NSLayoutConstraint constraintWithItem:_subView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:200];
+    NSLayoutConstraint *constraintLeft = [NSLayoutConstraint constraintWithItem:_subView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:40.0];
+    NSLayoutConstraint *constraintRight = [NSLayoutConstraint constraintWithItem:_subView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:-40.0];
+    NSLayoutConstraint *constraintHeight = [NSLayoutConstraint constraintWithItem:_subView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:300];
+    [self.view addConstraint:constraintTop];
+    [self.view addConstraint:constraintLeft];
+    [self.view addConstraint:constraintRight];
+    [self.view addConstraint:constraintHeight];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:3.0 animations:^{
+        NSArray *constraints = self.view.constraints;
+        for (NSLayoutConstraint *constraint in constraints) {
+            if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+                constraint.constant = 200;
+            }
+        }
+        [self.view layoutIfNeeded];
+    }];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
